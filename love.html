@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hi Hafiz Ilham, apakah kamu sayang aku?</title>
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ffb6c1,#ffd6e8);
+}
+
+.container{
+    text-align:center;
+}
+
+h1{
+    color:#ff3b7f;
+    font-size:42px;
+    margin-bottom:30px;
+}
+
+.buttons{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+}
+
+button{
+    padding:15px 40px;
+    font-size:22px;
+    border:none;
+    border-radius:12px;
+    transition:.25s;
+}
+
+#yes{
+    background:#ff4081;
+    color:white;
+    cursor:pointer;
+}
+
+#no{
+    position:absolute;
+    background:#666;
+    color:white;
+    cursor:not-allowed;
+}
+
+#message{
+    margin-top:35px;
+    color:white;
+}
+
+#message h2{
+    font-size:40px;
+    color:#fff;
+}
+
+#message p{
+    margin-top:15px;
+    font-size:24px;
+    color:#fff;
+}
+
+.heart{
+    position:fixed;
+    top:-50px;
+    pointer-events:none;
+    z-index:999;
+    animation:fall linear forwards;
+}
+
+@keyframes fall{
+    from{
+        transform:translateY(-50px) rotate(0deg);
+        opacity:1;
+    }
+
+    to{
+        transform:translateY(110vh) rotate(360deg);
+        opacity:0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1 id="title">Kamu sayang aku atau tidak? ❤️</h1>
+
+    <div class="buttons">
+        <button id="yes">Iya ❤️</button>
+        <button id="no">Tidak 😝</button>
+    </div>
+
+    <div id="message"></div>
+
+</div>
+
+<script>
+
+const yes=document.getElementById("yes");
+const no=document.getElementById("no");
+const msg=document.getElementById("message");
+const title=document.getElementById("title");
+
+let scale=1;
+
+// Posisi awal tombol Tidak
+reset();
+
+function reset(){
+    scale=1;
+    yes.style.transform="scale(1)";
+    yes.style.display="inline-block";
+    no.style.display="inline-block";
+    msg.innerHTML="";
+    title.innerHTML="Kamu sayang aku atau tidak? ❤️";
+
+    no.style.left=(window.innerWidth/2+90)+"px";
+    no.style.top=(window.innerHeight/2+25)+"px";
+}
+
+// Tombol Iya
+yes.addEventListener("click",()=>{
+
+    yes.style.display="none";
+    no.style.display="none";
+
+    title.innerHTML="❤️ Aku Juga Sayang Kamu ❤️";
+
+    msg.innerHTML=`
+        <h2>🥰 Makasih Ya ❤️</h2>
+        <p>Semoga kita selalu bahagia, sehat, dan langgeng selamanya. 💖</p>
+    `;
+
+    setInterval(createHeart,180);
+
+});
+
+// Tombol Tidak kabur
+function moveButton(){
+
+    const maxX=window.innerWidth-no.offsetWidth-20;
+    const maxY=window.innerHeight-no.offsetHeight-20;
+
+    no.style.left=Math.random()*maxX+"px";
+    no.style.top=Math.random()*maxY+"px";
+
+    scale+=0.15;
+    yes.style.transform=`scale(${scale})`;
+
+}
+
+no.addEventListener("mouseenter",moveButton);
+
+no.addEventListener("touchstart",(e)=>{
+    e.preventDefault();
+    moveButton();
+});
+
+no.addEventListener("click",(e)=>{
+    e.preventDefault();
+    moveButton();
+});
+
+// Membuat hati jatuh
+function createHeart(){
+
+    const heart=document.createElement("div");
+
+    heart.className="heart";
+    heart.innerHTML="❤️";
+
+    heart.style.left=Math.random()*window.innerWidth+"px";
+    heart.style.fontSize=(20+Math.random()*30)+"px";
+    heart.style.animationDuration=(3+Math.random()*3)+"s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{
+        heart.remove();
+    },6000);
+
+}
+
+</script>
+</body>
+</html>
